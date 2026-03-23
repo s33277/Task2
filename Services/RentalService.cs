@@ -25,7 +25,13 @@ namespace APBD_TASK2.Models
                 throw new Exception("Limit exceeded.");
 
             equipment.Status = EquipmentStatus.Rented;
-            Rental rental = new Rental();
+            Rental rental = new Rental
+            {
+                User = user,
+                Equipment = equipment,
+                RentalDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(30)
+            };
             Singleton.Instance.Rentals.Add(rental);
         }
 
@@ -38,14 +44,49 @@ namespace APBD_TASK2.Models
             return rental.CalculatePenalty();
         }
 
+        public void GenerateReport()
+        {
+            Console.WriteLine("======= RENTAL REPORT =======");
+            Console.WriteLine("Total items: " + GetAllEquipment().Count);
+            Console.WriteLine("Items available: "+GetAllEquipment().Count(e => e.Status == EquipmentStatus.Available));
+            Console.WriteLine("Active rentals: "+GetActiveRentals().Count);
+            foreach (Rental r in GetActiveRentals())
+            {
+                Console.WriteLine(r.User.FirstName + " " + r.User.LastName + ": " + r.Equipment.Name + " till " + r.DueDate);
+            }
+            Console.WriteLine("Overdue rentals: " + GetAllRentals().Count(r => r.IsOverdue));
+            var overdueRentals = GetAllRentals().Where(r => r.IsOverdue).ToList();
+            if (overdueRentals.Count == 0)
+            {
+                Console.WriteLine("No overdue rentals found.");
+            }
+            else
+            {
+                foreach (Rental r in overdueRentals)
+                {
+                    Console.WriteLine(r.User.FirstName + " " + r.User.LastName + ": " + r.Equipment.Name + " delay: " + r.CalculateLateDays() + " days");
+                }
+            }
+        }
+
         public List<Equipment> GetAllEquipment()
         {
-            throw new NotImplementedException();
+            return Singleton.Instance.Equipment;
         }
 
         public List<Equipment> GetAvailableEquipment()
         {
-            throw new NotImplementedException();
+            return GetAllEquipment().Where(e => e.Status == EquipmentStatus.Available).ToList();
+        }
+
+        public List<Rental> GetAllRentals()
+        {
+            return Singleton.Instance.Rentals;
+        }
+
+        public List<Rental> GetActiveRentals()
+        {
+            return GetAllRentals().Where(r => r.ReturnDate == null).ToList();
         }
     }
 }

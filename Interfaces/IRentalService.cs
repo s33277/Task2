@@ -12,6 +12,9 @@ namespace APBD_TASK2.Interfaces
 
         List<Equipment> GetAllEquipment();
         List<Equipment> GetAvailableEquipment();
+        public List<Rental> GetAllRentals();
+        public List<Rental> GetActiveRentals();
+
     }
 }
 

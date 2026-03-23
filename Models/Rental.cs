@@ -7,6 +7,8 @@ public class Rental
     public DateTime RentalDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? ReturnDate { get; set; }
+    
+    public bool IsOverdue => !ReturnDate.HasValue && DateTime.Now > DueDate;
 
     public decimal CalculatePenalty()
     {
@@ -14,4 +16,5 @@ public class Rental
         int lateDays = (ReturnDate.Value - DueDate).Days;
         return lateDays*4m;
     }
+    public int CalculateLateDays() => ReturnDate.HasValue ? (ReturnDate.Value - DueDate).Days : 0;
 }
