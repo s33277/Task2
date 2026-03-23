@@ -3,7 +3,6 @@ A C# console app for managing university rental service of equipment like laptop
 
 Design Decisions
 1. Responsibility + Cohesion
-To keep the code clean, each class has one job:
 Models: Store data and handle their own logic (User knows its rental limits, Rental calculates penalties.
 Service: Manages the checking if a rental is allowed before saving it.
 Config: Business rules to make them easy to change.
