@@ -13,6 +13,7 @@ var laptop1 = new Laptop("Dell XPS", 16, 13);
 var laptop2 = new Laptop("MacBook Pro", 32, 14);
 var camera = new Camera("Sony A7", 1080, "Full Frame");
 var projector = new Projector("Epson EB-L", 1080, 5000);
+var tablet = new Tablet("iPad Pro", true, "iOS");
 
 service.AddEquipment(laptop1);
 service.AddEquipment(laptop2);
@@ -42,6 +43,17 @@ try
 {
     service.RentEquipment(employee, projector);
     Console.WriteLine($"Rented {projector.Name} (Brightness: {projector.Brightness}) to {employee.FirstName}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+
+Console.WriteLine("\n======= Tablet =======");
+try 
+{
+    service.RentEquipment(employee, tablet);
+    Console.WriteLine($"Rented {tablet.Name} (OS: {tablet.OperatingSystem}, Stylus: {tablet.HasStylus}) to {employee.FirstName}");
 }
 catch (Exception ex)
 {
