@@ -15,7 +15,7 @@ public class Rental
     public decimal CalculatePenalty()
     {
         if (!ReturnDate.HasValue || ReturnDate <= DueDate) return 0;
-        int lateDays = (ReturnDate.Value - DueDate).Days;
+        int lateDays = (ReturnDate.Value.Date - DueDate.Date).Days;
         return lateDays*Constants.DailyLatePenalty;
     }
     public int CalculateLateDays() => ReturnDate.HasValue ? (ReturnDate.Value - DueDate).Days : 0;
