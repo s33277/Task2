@@ -1,4 +1,5 @@
-﻿using APBD_TASK2.Database;
+﻿using APBD_TASK2.Config;
+using APBD_TASK2.Database;
 using APBD_TASK2.Enum;
 using APBD_TASK2.Interfaces;
 
@@ -21,7 +22,8 @@ namespace APBD_TASK2.Models
             if (equipment.Status != EquipmentStatus.Available)
                 throw new Exception("Equipment is not available.");
             
-            if (Singleton.Instance.Rentals.Count >= user.MaxActiveRentals)
+            int userActiveCount = GetActiveRentals().Count(r => r.User.Id == user.Id);
+            if (userActiveCount >= user.MaxActiveRentals)
                 throw new Exception("Limit exceeded.");
 
             equipment.Status = EquipmentStatus.Rented;
@@ -30,14 +32,14 @@ namespace APBD_TASK2.Models
                 User = user,
                 Equipment = equipment,
                 RentalDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(30)
+                DueDate = DateTime.Now.AddDays(Constants.StandardRentalDays)
             };
             Singleton.Instance.Rentals.Add(rental);
         }
 
         public decimal ReturnEquipment(Equipment equipment)
         {
-            var rental = Singleton.Instance.Rentals.FirstOrDefault(r => r.Equipment.Id == equipment.Id && r.ReturnDate == null);
+            var rental = GetAllRentals().FirstOrDefault(r => r.Equipment.Id == equipment.Id && r.ReturnDate == null);
             if (rental == null) throw new Exception("No active rental found for this equipment.");
             rental.ReturnDate = DateTime.Now;
             equipment.Status = EquipmentStatus.Available;

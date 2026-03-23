@@ -1,4 +1,6 @@
-﻿namespace APBD_TASK2.Models;
+﻿using APBD_TASK2.Config;
+
+namespace APBD_TASK2.Models;
 
 public class Rental
 {
@@ -14,7 +16,7 @@ public class Rental
     {
         if (!ReturnDate.HasValue || ReturnDate <= DueDate) return 0;
         int lateDays = (ReturnDate.Value - DueDate).Days;
-        return lateDays*4m;
+        return lateDays*Constants.DailyLatePenalty;
     }
     public int CalculateLateDays() => ReturnDate.HasValue ? (ReturnDate.Value - DueDate).Days : 0;
 }

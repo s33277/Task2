@@ -1,4 +1,5 @@
-﻿using APBD_TASK2.Enum;
+﻿using APBD_TASK2.Config;
+using APBD_TASK2.Enum;
 
 namespace APBD_TASK2.Models
 {
@@ -22,8 +23,8 @@ namespace APBD_TASK2.Models
 
         public int MaxActiveRentals => Type switch
         {
-            UserType.Student => 2,
-            UserType.Employee => 5,
+            UserType.Student => Constants.StudentRentalLimit,
+            UserType.Employee => Constants.EmployeeRentalLimit,
             _ => 0
         };
     }
