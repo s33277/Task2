@@ -23,5 +23,7 @@ namespace APBD_TASK2.Database
 
         //TODO: add collections for items in the exercise
         public List<Equipment> Equipment { get; set; } = new List<Equipment>();
+        public List<User> Users { get; set; } = new List<User>();
+        public List<Rental> Rentals { get; set; } = new List<Rental>();
     }
 }

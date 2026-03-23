@@ -6,6 +6,10 @@ namespace APBD_TASK2.Interfaces
     {
         void AddUser(User user);
         void AddEquipment(Equipment equipment);
+
+        public void RentEquipment(User user, Equipment equipment);
+        public decimal ReturnEquipment(Equipment equipment);
+
         List<Equipment> GetAllEquipment();
         List<Equipment> GetAvailableEquipment();
     }

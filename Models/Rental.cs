@@ -10,8 +10,8 @@ public class Rental
 
     public decimal CalculatePenalty()
     {
-        if (!ReturnDate.HasValue | ReturnDate <= DueDate) return 0;
-        TimeSpan delay = ReturnDate.Value - DueDate;
-        return delay.Days*4;
+        if (!ReturnDate.HasValue || ReturnDate <= DueDate) return 0;
+        int lateDays = (ReturnDate.Value - DueDate).Days;
+        return lateDays*4m;
     }
 }
